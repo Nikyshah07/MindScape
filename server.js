@@ -1,13 +1,20 @@
-import express from 'express';
-import mongoose from 'mongoose';
-import cors from 'cors';
-import bcrypt from 'bcrypt';
-import User from './models/user.js';
-import dotenv from 'dotenv'
-import jwt from 'jsonwebtoken'
-import nodemailer from 'nodemailer';
+const express = require('express');
+const mongoose = require('mongoose');
+const cors = require('cors');
+const bcrypt = require('bcrypt');
+const User = require('./models/user.js');
+const dotenv = require('dotenv');
+const jwt = require('jsonwebtoken');
+const nodemailer = require('nodemailer');
+
+dotenv.config();
+
 const app = express();
-app.use(cors());
+app.use(cors({
+  origin: "*", 
+  methods: ["GET", "POST"]
+}));
+
 app.use(express.json());
 dotenv.config();
 
@@ -52,25 +59,38 @@ app.post('/login', async (req, res) => {
     // Find the user by email
     const user = await User.findOne({ email });
     if (!user) {
-      return res.status(400).json({ message: 'Invalid email or password' });
+      return res.status(400).json({ success: false, message: 'Invalid email or password' });
     }
+
+    // Compare passwords
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
-      return res.status(400).json({ message: 'Invalid email or password' });
+      return res.status(400).json({ success: false, message: 'Invalid email or password' });
     }
+
+    // Generate JWT Token
     const token = jwt.sign(
-        { id: user._id, email: user.email }, 
-        process.env.JWT_SECRET, 
-       
+      { id: user._id, email: user.email }, 
+      process.env.JWT_SECRET,  // Secret Key
+      { expiresIn: '1h' }       // ✅ Added expiration time
     );
+
+    // Save token in the database
     user.token = token; 
     await user.save();
-    res.status(200).json({ message: 'Login successful...', user: { email: user.email } ,token});
+
+    res.status(200).json({
+      success: true,
+      message: 'Login successful...',
+      user: { email: user.email },
+      token
+    });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: 'Server error' });
+    res.status(500).json({ success: false, message: 'Server error' });
   }
 });
+
 
 
 app.get('/', (req,res) => {
