@@ -11,14 +11,22 @@ const UserSchema=new mongoose.Schema({
     },
     password:{ 
         type: String,
-         required: true
+         required: true,
+         
      }
      ,
      token: { 
         type: String,
         default: null 
     }
-})
+    
+       
+    
+}, {
+    timestamps: true
+}
+)
+
 
 const User = mongoose.model('mindscapeuser', UserSchema);
 module.exports = User;
