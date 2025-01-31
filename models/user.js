@@ -18,7 +18,14 @@ const UserSchema=new mongoose.Schema({
      token: { 
         type: String,
         default: null 
-    }
+    },
+    notes:[
+        {
+            type:mongoose.Schema.Types.ObjectId,
+            ref:"Note",
+            required:true
+        }
+    ]
     
        
     

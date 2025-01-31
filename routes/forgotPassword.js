@@ -11,7 +11,7 @@ router.post('/forgot-password', async (req, res) => {
      try {
       const user = await User.findOne({ email });
       if (!user) {
-        return res.status(400).json({ message: 'Email not found' });
+        return res.status(400).json({ success: false, message: 'Email not found' });
       }
   
       const otp = Math.floor(1000 + Math.random() * 9000);  
@@ -38,13 +38,13 @@ router.post('/forgot-password', async (req, res) => {
       transporter.sendMail(mailOptions, (error, info) => {
         if (error) {
           
-          return res.status(500).json({ message: 'Failed to send OTP' });
+          return res.status(500).json({ success: false, message: 'Failed to send OTP' });
         }
-        res.status(200).json({ message: 'OTP sent successfully' });
+        res.status(200).json({success: true, message: 'OTP sent successfully' });
       });
     } catch (error) {
       
-      res.status(500).json({ message: 'Server error' });
+      res.status(500).json({ success: false, message: 'Server error',error: error.message });
     }
 });
 

@@ -12,6 +12,9 @@ const registerRoute=require('./routes/register.js')
 const resetPassword=require('./routes/resetPassword.js')
 const forgotPassword=require('./routes/forgotPassword.js')
 const verifyOtp=require('./routes/verifyOtp.js')
+const noteAdd=require('./routes/noteadd.js')
+const noteget=require('./routes/noteget.js')
+const noteEdit=require('./routes/noteEdit.js')
 const otpStore=require('./routes/otpStore.js')
 dotenv.config();
 
@@ -39,12 +42,19 @@ app.use('/',registerRoute)
 app.use('/',forgotPassword)
 app.use('/',verifyOtp)
 app.use('/',resetPassword)
-
+app.use('/',noteAdd)
+app.use('/',noteget)
+app.use('/',noteEdit)
 
 app.get('/', (req, res) => {
   res.send("Hello from backend");
 });
 
+// const PORT = process.env.PORT || 5000;
+// app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+app.listen(PORT, () => {
+  console.log(`Server running on ${PORT}`);
+});
 
