@@ -12,10 +12,15 @@ const registerRoute=require('./routes/register.js')
 const resetPassword=require('./routes/resetPassword.js')
 const forgotPassword=require('./routes/forgotPassword.js')
 const verifyOtp=require('./routes/verifyOtp.js')
-const noteAdd=require('./routes/noteadd.js')
-const noteget=require('./routes/noteget.js')
+const noteAdd=require('./routes/noteAdd.js')
+const noteGet=require('./routes/noteGet.js')
 const noteEdit=require('./routes/noteEdit.js')
+const noteDelete=require('./routes/noteDelete.js')
+const feedback=require('./routes/feedbackForm.js')
 const otpStore=require('./routes/otpStore.js')
+const profileAdd=require('./routes/profileAdd.js')
+const profileGet=require('./routes/profileGet.js')
+const profileEdit=require('./routes/profileEdit.js')
 dotenv.config();
 
 const app = express();
@@ -43,8 +48,14 @@ app.use('/',forgotPassword)
 app.use('/',verifyOtp)
 app.use('/',resetPassword)
 app.use('/',noteAdd)
-app.use('/',noteget)
+app.use('/',noteGet)
+app.use('/',feedback)
 app.use('/',noteEdit)
+app.use('/',noteDelete)
+app.use('/',profileAdd)
+app.use('/',profileGet)
+app.use('/',profileEdit)
+
 
 app.get('/', (req, res) => {
   res.send("Hello from backend");

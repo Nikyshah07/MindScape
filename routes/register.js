@@ -9,10 +9,10 @@ const jwt = require('jsonwebtoken');
 // JWT_SECRET=your_jwt_secret_here
 
 router.post('/register', async (req, res) => {
-    const { name, email, password, confirmPassword } = req.body;
+    const { email, password, confirmPassword } = req.body;
 
     // Validate input
-    if (!name || !email || !password || !confirmPassword) {
+    if ( !email || !password || !confirmPassword) {
         return res.status(400).json({
             success: false,
             message: 'All fields are required'
@@ -41,9 +41,10 @@ router.post('/register', async (req, res) => {
 
         // Create new user
         const newUser = new User({
-            name,
+            // name,
             email,
-            password: hashedPassword
+            password: hashedPassword,
+            
         });
 
         // Save user
@@ -63,7 +64,7 @@ router.post('/register', async (req, res) => {
             token,
             user: {
                 id: savedUser._id,
-                name: savedUser.name,
+                // name: savedUser.name,
                 email: savedUser.email
             }
         });
