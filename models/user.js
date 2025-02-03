@@ -14,6 +14,10 @@ const UserSchema=new mongoose.Schema({
         enum: ['male', 'female'],
         default: null 
     },
+    image:{
+        type:String,
+        default:null
+    },
     email:{
         type:String,
         required:true

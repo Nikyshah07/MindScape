@@ -4,27 +4,20 @@ const router = express.Router();
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 router.get('/profile/:userId', async (req, res) => {
-    const { userId } = req.params; // Get userId from route parameters
-
-    const token = req.headers['authorization'] && req.headers['authorization'].split(' ')[1];
-
-    // Validate input (check if token is provided)
-    if (!token) {
+    const { userId } = req.params; 
+   const token = req.headers['authorization'] && req.headers['authorization'].split(' ')[1];
+   if (!token) {
         return res.status(401).json({
             success: false,
             message: 'Authorization token is required'
         });
     }
-
-    try {
-        // Verify the token (if needed for authentication purposes)
+   try {
+        
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
-        const authenticatedUserId = decoded.userId; // Get the ID of the authenticated user (if needed)
+        const authenticatedUserId = decoded.userId; 
 
-        // You can check if the authenticated user has permission to view this profile (optional)
-        // For example, you can check if the authenticated user is an admin, or if they are the same as `userId`
-
-        // Find the user by the provided userId
+        
         const user = await User.findById(userId);
 
         if (!user) {
@@ -33,8 +26,15 @@ router.get('/profile/:userId', async (req, res) => {
                 message: 'User not found'
             });
         }
+
         const formattedBirthDate = user.birthDate.toLocaleDateString('en-GB'); 
-        // Return the user profile details (excluding sensitive fields like password)
+
+        
+         const imageUrl = `https://6tw951b5-5000.inc1.devtunnels.ms/uploads/${user.image}`
+
+        
+
+        
         res.status(200).json({
             success: true,
             message: 'Profile retrieved successfully',
@@ -43,8 +43,8 @@ router.get('/profile/:userId', async (req, res) => {
                 name: user.name,
                 email: user.email,
                 birthDate: formattedBirthDate,
-                male: user.male,
-                female: user.female
+                gender: user.gender, 
+                imageUrl 
             }
         });
 
@@ -57,5 +57,4 @@ router.get('/profile/:userId', async (req, res) => {
         });
     }
 });
-
-module.exports = router;
+module.exports=router

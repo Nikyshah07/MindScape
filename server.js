@@ -21,9 +21,12 @@ const otpStore=require('./routes/otpStore.js')
 const profileAdd=require('./routes/profileAdd.js')
 const profileGet=require('./routes/profileGet.js')
 const profileEdit=require('./routes/profileEdit.js')
+
+const path=require('path')
 dotenv.config();
 
 const app = express();
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 app.use(cors({
   origin: "*", 
   methods: ["GET", "POST"]
@@ -55,6 +58,7 @@ app.use('/',noteDelete)
 app.use('/',profileAdd)
 app.use('/',profileGet)
 app.use('/',profileEdit)
+
 
 
 app.get('/', (req, res) => {
