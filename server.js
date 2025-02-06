@@ -20,7 +20,10 @@ const feedback=require('./routes/feedbackForm.js')
 const otpStore=require('./routes/otpStore.js')
 const profileAdd=require('./routes/profileAdd.js')
 const profileGet=require('./routes/profileGet.js')
+const stateGraph=require('./routes/stateGraph.js')
+
 const profileEdit=require('./routes/profileEdit.js')
+
 
 const path=require('path')
 dotenv.config();
@@ -58,6 +61,10 @@ app.use('/',noteDelete)
 app.use('/',profileAdd)
 app.use('/',profileGet)
 app.use('/',profileEdit)
+app.use('/',stateGraph)
+
+
+
 
 
 
