@@ -29,7 +29,11 @@ const path=require('path')
 dotenv.config();
 
 const app = express();
-app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+// app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+// app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
+
+
 app.use(cors({
   origin: "*", 
   methods: ["GET", "POST"]

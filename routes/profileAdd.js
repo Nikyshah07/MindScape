@@ -63,6 +63,8 @@ router.post('/profileadd', upload.single("image"), async (req, res) => {
                 message: 'User not found'
             });
         }
+        // const imageUrl = `/uploads/${req.file.filename}`;
+        const imageUrl = `${process.env.BASE_URL}/uploads/${req.file.filename}`; 
 
         user.name = name;
         user.birthDate = dateOfBirth;
@@ -79,7 +81,8 @@ router.post('/profileadd', upload.single("image"), async (req, res) => {
                 name: user.name,
                 birthDate: formattedBirthDate,
                 gender: user.gender,
-                email: user.email 
+                email: user.email,
+                image: imageUrl
             }
         });
 

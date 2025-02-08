@@ -59,7 +59,9 @@ router.put('/profile/:userId', upload.single("image"), async (req, res) => {
                 birthDate: formattedBirthDate,
                 gender: profileToUpdate.gender,
                 email: profileToUpdate.email,
-                imageUrl: `${req.protocol}://${req.get('host')}/uploads/${profileToUpdate.image}` 
+                // imageUrl: `${req.protocol}://${req.get('host')}/uploads/${profileToUpdate.image}`,
+                image:`${process.env.BASE_URL}/uploads/${profileToUpdate.image}`
+         
             }
         });
     } catch (error) {

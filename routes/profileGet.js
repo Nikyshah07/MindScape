@@ -5,20 +5,21 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 router.get('/profile/:userId', async (req, res) => {
     const { userId } = req.params; 
-   const token = req.headers['authorization'] && req.headers['authorization'].split(' ')[1];
-   if (!token) {
+    const token = req.headers['authorization']?.split(' ')[1];
+
+    if (!token) {
         return res.status(401).json({
             success: false,
             message: 'Authorization token is required'
         });
     }
-   try {
-        
+
+    try {
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
         const authenticatedUserId = decoded.userId; 
 
-        
         const user = await User.findById(userId);
+        console.log("User data from DB:", user);
 
         if (!user) {
             return res.status(404).json({
@@ -27,14 +28,16 @@ router.get('/profile/:userId', async (req, res) => {
             });
         }
 
-        const formattedBirthDate = user.birthDate.toLocaleDateString('en-GB'); 
+        // Ensure birthDate is properly formatted
+        const formattedBirthDate = user.birthDate
+            ? new Date(user.birthDate).toLocaleDateString('en-GB')
+            : null;
 
-        
-         const imageUrl = `https://6tw951b5-5000.inc1.devtunnels.ms/uploads/${user.image}`
+        // Ensure correct image URL
+        // const imageUrl = user.image.startsWith('file:///')
+        //     ? user.image
+        //     : `https://6tw951b5-5000.inc1.devtunnels.ms/uploads/${user.image}`;
 
-        
-
-        
         res.status(200).json({
             success: true,
             message: 'Profile retrieved successfully',
@@ -44,7 +47,8 @@ router.get('/profile/:userId', async (req, res) => {
                 email: user.email,
                 birthDate: formattedBirthDate,
                 gender: user.gender, 
-                imageUrl 
+                image: user.image ? `${process.env.BASE_URL}/uploads/${user.image}` : null
+        
             }
         });
 
@@ -57,4 +61,5 @@ router.get('/profile/:userId', async (req, res) => {
         });
     }
 });
+
 module.exports=router

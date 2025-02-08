@@ -20,16 +20,22 @@ router.post('/login', async (req, res) => {
         }
   
         const isMatch = await bcrypt.compare(password, user.password);
+
+
         if (!isMatch) {
             return res.status(401).json({ success: false, message: "Incorrect password." });
         }
   
         // Use 'userId' in the payload to make sure it aligns with the registration token format
-        const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
+        const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET);
         user.token = token; 
         await user.save();
 
-        res.status(200).json({ success: true, message: "Login successful!", token, user });
+        res.status(200).json({ success: true, message: "Login successful!", token, user: {
+            ...user.toObject(),
+            id:user.id ?user.id : null,
+            image: user.image ? `${process.env.BASE_URL}/uploads/${user.image}` : null
+        } });
     } catch (error) {
         console.error("Server Error:", error);
         res.status(500).json({ success: false, message: "Internal Server Error. Please try again later." });
