@@ -11,7 +11,7 @@ const UserSchema=new mongoose.Schema({
     },
     gender: {
         type: String,
-        enum: ['male', 'female'],
+        enum: ['male', 'female','other'],
         default: null 
     },
     image:{
@@ -25,6 +25,11 @@ const UserSchema=new mongoose.Schema({
     password:{ 
         type: String,
          required: true,
+         
+     },
+     hobby:{ 
+        type: String,
+         default:null
          
      }
      ,

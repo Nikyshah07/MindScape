@@ -28,7 +28,7 @@ const upload = multer({
 });
 
 router.post('/profileadd', upload.single("image"), async (req, res) => {
-    const { name, birthDate, gender } = req.body; 
+    const { name, birthDate, gender,hobby } = req.body; 
     const token = req.headers['authorization'] && req.headers['authorization'].split(' ')[1];
 
     
@@ -39,7 +39,7 @@ router.post('/profileadd', upload.single("image"), async (req, res) => {
         });
     }
 
-    if (!name || !birthDate || !gender || !req.file) { 
+    if (!name || !birthDate || !gender || !req.file || !hobby) { 
         return res.status(400).json({
             success: false,
             message: 'All fields are required'
@@ -70,6 +70,7 @@ router.post('/profileadd', upload.single("image"), async (req, res) => {
         user.birthDate = dateOfBirth;
         user.gender = gender;
         user.image = req.file.filename; 
+        user.hobby=hobby;
         
         await user.save();
         const formattedBirthDate = user.birthDate.toLocaleDateString('en-GB'); 
@@ -82,6 +83,7 @@ router.post('/profileadd', upload.single("image"), async (req, res) => {
                 birthDate: formattedBirthDate,
                 gender: user.gender,
                 email: user.email,
+                hobby:user.hobby,
                 image: imageUrl
             }
         });

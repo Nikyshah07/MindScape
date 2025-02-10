@@ -15,7 +15,7 @@ router.post('/forgot-password', async (req, res) => {
       }
   
       const otp = Math.floor(1000 + Math.random() * 9000);  
-      const expirationTime = Date.now() + 5 * 60 * 1000; 
+      const expirationTime = Date.now() + 2 * 60 * 1000; 
       
       
       otpStore[email] = { otp, expires: expirationTime };  

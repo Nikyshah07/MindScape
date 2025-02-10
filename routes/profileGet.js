@@ -19,7 +19,7 @@ router.get('/profile/:userId', async (req, res) => {
         const authenticatedUserId = decoded.userId; 
 
         const user = await User.findById(userId);
-        console.log("User data from DB:", user);
+        // console.log("User data from DB:", user);
 
         if (!user) {
             return res.status(404).json({
@@ -46,7 +46,9 @@ router.get('/profile/:userId', async (req, res) => {
                 name: user.name,
                 email: user.email,
                 birthDate: formattedBirthDate,
-                gender: user.gender, 
+                gender: user.gender,
+                hobby:user.hobby,
+
                 image: user.image ? `${process.env.BASE_URL}/uploads/${user.image}` : null
         
             }
