@@ -21,7 +21,9 @@ const otpStore=require('./routes/otpStore.js')
 const profileAdd=require('./routes/profileAdd.js')
 const profileGet=require('./routes/profileGet.js')
 const stateGraph=require('./routes/stateGraph.js')
-
+const addSession=require('./routes/addSession.js')
+const getSession=require('./routes/getSession.js')
+const deleteSession=require('./routes/deleteSession.js')
 const profileEdit=require('./routes/profileEdit.js')
 
 
@@ -66,8 +68,9 @@ app.use('/',profileAdd)
 app.use('/',profileGet)
 app.use('/',profileEdit)
 app.use('/',stateGraph)
-
-
+app.use('/',addSession)
+app.use('/',getSession)
+app.use('/',deleteSession)
 
 
 
